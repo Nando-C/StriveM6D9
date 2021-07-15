@@ -37,13 +37,11 @@ BlogPost.beforeValidate((user) => {
     }
     user.read_time_value = Math.floor(striptags(user.content).length / 225) + 1;
     user.read_time_unit = user.read_time_value === 1 ? "minute" : "minutes";
-    // user.content = striptags(user.content);
 })
 
 BlogPost.beforeUpdate((user) => {
     user.read_time_value = Math.floor(striptags(user.content).length / 225) + 1;
     user.read_time_unit = user.read_time_value === 1 ? "minute" : "minutes";
-    // user.content = striptags(user.content);
 })
 
 export { sequelize, Author, BlogPost, Category, Comment }
