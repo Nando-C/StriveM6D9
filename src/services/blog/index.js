@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Author, BlogPost } from "../../db/models/index.js";
+import { Author, BlogPost, Category } from "../../db/models/index.js";
 import sequelize from "sequelize";
 
 const { Op } = sequelize
@@ -25,10 +25,12 @@ router.route('/')
             })
 
             const data = await BlogPost.findAll({
-                include: [{model: Author, attributes: ['name', 'avatar'] }],
-                    attributes: { exclude: 'authorId'},
-                    // attributes: { exclude: ['createdAt', 'updatedAt']},
-                    where: filters.length > 0 
+                include: [
+                    {model: Author, attributes: ['id', 'name', 'avatar'] },
+                    {model: Category, attributes: ['id', 'name'] },
+                ],
+                attributes: { exclude: ['authorId', 'categoryId']},
+                where: filters.length > 0 
                         ? {[Op.or]: filters}
                         : {}
             })
@@ -54,8 +56,11 @@ router.route('/:postId')
     .get( async (req, res, next) => {
         try {
             const data = await BlogPost.findByPk(req.params.postId, {
-                include: [{model: Author, attributes: ['name', 'avatar'] }],
-                attributes: { exclude: 'authorId'}
+                include: [
+                    {model: Author, attributes: ['id', 'name', 'avatar'] },
+                    {model: Category, attributes: ['id', 'name'] },
+                ],
+                attributes: { exclude: ['authorId', 'categoryId']}
                 }
             )
             res.send(data)
