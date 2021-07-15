@@ -5,6 +5,7 @@ import { badRequestMiddleware, catchAllErrorsMiddleware, notFoundMiddleware } fr
 import {sequelize} from './db/models/index.js'
 import blogRoutes from './services/blog/index.js'
 import authorRoutes from './services/author/index.js'
+import categoryRoutes from './services/categories/index.js'
 
 
 const port = process.env.PORT || 3001
@@ -18,6 +19,7 @@ server.use(express.json())
 // ===================== ROUTES  =================================
 server.use('/blog', blogRoutes)
 server.use('/author', authorRoutes)
+server.use('/category', categoryRoutes)
 // ===================== ERROR HANDLERS ==========================
 server.use(notFoundMiddleware)
 server.use(badRequestMiddleware)
