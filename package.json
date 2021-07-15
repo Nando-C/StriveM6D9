@@ -25,7 +25,8 @@
     "express-list-endpoints": "^5.0.0",
     "http-errors": "^1.8.0",
     "pg": "^8.6.0",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "striptags": "^3.2.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
