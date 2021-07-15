@@ -13,8 +13,8 @@ Comment.belongsTo(Author)
 Category.hasMany(BlogPost)
 BlogPost.belongsTo(Category)
 
-BlogPost.hasMany(Comment)
-Comment.belongsTo(BlogPost)
+BlogPost.hasMany(Comment, {foreignKey: {allowNull: false}})
+Comment.belongsTo(BlogPost, {foreignKey: {allowNull: false}})
 
 
 export { sequelize, Author, BlogPost, Category, Comment }

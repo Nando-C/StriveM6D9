@@ -6,12 +6,14 @@ const { Op } = sequelize
 
 const router = Router()
 
-router.route('/')
-    // ===============  RETRIEVES LIST OF CCOMMENTS =======================
+router.route('/:postId')
+    // ===============  RETRIEVES LIST OF COMMENTS FROM A SINGLE BLOGPOST =======================
     .get( async (req, res, next) => {
         try {
             const data = await Comment.findAll({
-                include: { model: Author, attributes: ['id', 'name', 'avatar']}
+                include: { model: Author, attributes: ['id', 'name', 'avatar']},
+                where: { blogPostId: req.params.postId},
+                attributes: { exclude: ['authorId']},
             })
             res.send(data)
         } catch (error) {
@@ -19,10 +21,10 @@ router.route('/')
             next(error)
         }
     })
-    // ===============  CREATES NEW COMMENT =======================
+    // ===============  CREATES NEW COMMENT ON A BLOGPOST =======================
     .post( async (req, res, next) => {
         try {
-            const data = await Comment.create(req.body)
+            const data = await Comment.create({...req.body, blogPostId: req.params.postId })
             res.send(data)
         } catch (error) {
             console.log(error)
@@ -30,10 +32,11 @@ router.route('/')
         }
     })
 
-router.route('/:commentId')
-   // ===============  RETRIEVES SINGLE Comment =======================
+router.route('/:postId/:commentId')
+   // ===============  RETRIEVES SINGLE COMMENT =======================
     .get( async (req, res, next) => {
         try {
+            // const { postId, commentId } = req.params
             const data = await Comment.findByPk(req.params.commentId, {
                 include: { model: Author, attributes: ['id', 'name', 'avatar']}
             })
@@ -43,7 +46,7 @@ router.route('/:commentId')
             next(error)
         }
     })
-    // ===============  UPDATES A Comment =======================
+    // ===============  UPDATES A COMMENT =======================
     .put( async (req, res, next) => {
         try {
             const data = await Comment.update(req.body, {
@@ -57,7 +60,7 @@ router.route('/:commentId')
             next(error)
         }
     })
-    // ===============  DELETES A Comment =======================
+    // ===============  DELETES A COMMENT =======================
     .delete( async (req, res, next) => {
         try {
             const rowsCount = await Comment.destroy({ where: { id: req.params.commentId} })

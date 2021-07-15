@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Author, BlogPost, Category } from "../../db/models/index.js";
+import { Author, BlogPost, Category, Comment } from "../../db/models/index.js";
 import sequelize from "sequelize";
 
 const { Op } = sequelize
@@ -28,6 +28,14 @@ router.route('/')
                 include: [
                     {model: Author, attributes: ['id', 'name', 'avatar'] },
                     {model: Category, attributes: ['id', 'name'] },
+                    {
+                        model: Comment, 
+                        attributes: ['id', 'comment'], 
+                        include: [ { 
+                            model: Author, 
+                            attributes: ['id', 'name', 'avatar'] 
+                        } ]
+                    },
                 ],
                 attributes: { exclude: ['authorId', 'categoryId']},
                 where: filters.length > 0 
@@ -59,6 +67,14 @@ router.route('/:postId')
                 include: [
                     {model: Author, attributes: ['id', 'name', 'avatar'] },
                     {model: Category, attributes: ['id', 'name'] },
+                    {
+                        model: Comment, 
+                        attributes: ['id', 'comment'], 
+                        include: [ { 
+                            model: Author, 
+                            attributes: ['id', 'name', 'avatar'] 
+                        } ]
+                    },
                 ],
                 attributes: { exclude: ['authorId', 'categoryId']}
                 }
