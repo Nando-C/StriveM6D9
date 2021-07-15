@@ -9,10 +9,10 @@ const BlogPost = sequelize.define('blog_post', {
         primaryKey: true,
         autoIncrement: true,
     },
-    category:{
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    // category:{
+    //     type: DataTypes.STRING,
+    //     allowNull: false,
+    // },
     title:{
         type: DataTypes.STRING,
         allowNull: false,
